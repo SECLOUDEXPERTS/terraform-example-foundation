@@ -63,7 +63,7 @@ variable "org_policy_admin_role" {
 variable "project_prefix" {
   description = "Name prefix to use for projects created. Should be the same in all steps. Max size is 3 characters."
   type        = string
-  default     = "prj"
+  default     = "gc"
 }
 
 variable "folder_prefix" {
@@ -72,11 +72,11 @@ variable "folder_prefix" {
   default     = "fldr"
 }
 
-variable "bucket_prefix" {
-  description = "Name prefix to use for state bucket created."
-  type        = string
-  default     = "bkt"
-}
+# variable "bucket_prefix" {
+#   description = "Name prefix to use for state bucket created."
+#   type        = string
+#   default     = "bkt"
+# }
 
 variable "bucket_force_destroy" {
   description = "When deleting a bucket, this boolean option will delete all contained objects. If false, Terraform will fail to delete buckets which contain objects."
@@ -89,6 +89,47 @@ variable "bucket_tfstate_kms_force_destroy" {
   type        = bool
   default     = false
 }
+
+/* ----------------------------------------
+    Specific to project labels
+   ---------------------------------------- */
+
+variable "env" {
+  description = "project seed environment"
+  type = string
+  default = "cpr"
+}
+
+variable "app_name" {
+  description = "project seed application name"
+  type = string
+  default = "seed"
+}
+
+variable "billing_code" {
+  description = "project seed billing code"
+  type = string
+  default = "n/a"
+}
+
+variable "primary_contact" {
+  description = "project seed primary contact"
+  type = string
+  default = "n/a"
+}
+
+variable "secondary_contact" {
+  description = "project seed secondary contact"
+  type = string
+  default = "n/a"
+}
+
+variable "business_code" {
+  description = "project seed business code"
+  type = string
+  default = "shared"
+}
+
 
 /* ----------------------------------------
     Specific to Groups creation
@@ -361,3 +402,4 @@ variable "initial_group_config" {
 #   description = "If false TFC will provide remote runners to run the jobs. If true, TFC will use Agents on a private autopilot GKE cluster."
 #   default = false
 # }
+
