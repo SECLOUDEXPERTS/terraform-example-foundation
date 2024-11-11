@@ -96,17 +96,16 @@ variable "bucket_tfstate_kms_force_destroy" {
 
 
 variable "project_labels" {
-  description = "Contains default values fof project labels"
-  type = object({
-    environment       = optional(string, "cpr")
-    application_name  = optional(string, "seed")
-    billing_code      = optional(string, "n/a")
-    primary_contact   = optional(string, "n/a")
-    secondary_contact = optional(string, "n/a")
-    business_code     = optional(string, "n/a")
-    # env_code          = "b"
-    # vpc               = "none"
-  })
+  description = "Contains default values for project labels(lower case ONLY)"
+  type = map(string)
+  default = {
+    environment = "cpr"
+    application_name = "seed"
+    billing_code = "na"
+    primary_contact = "na"
+    secondary_contact = "na"
+    business_code = "na"
+  }
 }
 
 

@@ -39,10 +39,10 @@ groups = {
   # }
 }
 
-default_region     = "us-central1"
-default_region_2   = "us-west1"
-default_region_gcs = "US"
-default_region_kms = "us"
+default_region     = "northamerica-northeast1"
+default_region_2   = "northamerica-northeast2"
+default_region_gcs = "northamerica-northeast1"
+default_region_kms = "northamerica-northeast1"
 
 # Optional - for an organization with existing projects or for development/validation.
 # Uncomment this variable to place all the example foundation resources under
@@ -51,6 +51,17 @@ default_region_kms = "us"
 # The folder must already exist.
 # parent_folder = "01234567890"
 
+/* ----------------------------------------
+    Specific to project label
+   ---------------------------------------- */
+project_labels = {
+    environment       = "cpr"
+    application_name  = "seed"
+    billing_code      = "NA"
+    primary_contact   = "NA"
+    secondary_contact = "NA"
+    business_code     = "NA"
+}
 
 /* ----------------------------------------
     Specific to github_bootstrap
