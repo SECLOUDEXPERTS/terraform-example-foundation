@@ -34,6 +34,13 @@ locals {
   ] : ["roles/resourcemanager.organizationAdmin", "roles/billing.user"]
 }
 
+# resource "random_string" "random" {
+#   length           = 4
+#   special          = false
+#   min_lower        = 4
+#   override_special = "/@£$"
+# }
+
 resource "google_folder" "bootstrap" {
   display_name = "bootstrap"
   parent       = local.parent
@@ -61,6 +68,7 @@ module "seed_bootstrap" {
   encrypt_gcs_bucket_tfstate     = false
   key_rotation_period            = "7776000s"
   kms_prevent_destroy            = !var.bucket_tfstate_kms_force_destroy
+  project_deletion_policy        = var.project_deletion_policy
 
   project_labels = var.project_labels
 
