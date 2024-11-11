@@ -125,6 +125,18 @@ variable "project_labels" {
   }
 }
 
+variable "project_labels_cicd" {
+  description = "Contains default values for project labels(lower case ONLY)"
+  type = map(string)
+  default = {
+    environment = "cpr"
+    application_name = "cicd"
+    billing_code = "na"
+    primary_contact = "na"
+    secondary_contact = "na"
+    business_code = "na"
+  }
+}
 
 
 /* ----------------------------------------

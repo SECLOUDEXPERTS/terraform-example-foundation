@@ -19,6 +19,10 @@ variable "project_id" {
   type        = string
 }
 
+variable "random_string" {
+  description = "random id"
+  type = string
+}
 variable "private_worker_pool" {
   description = <<EOT
   name: Name of the worker pool. A name with a random suffix is generated if not set.
