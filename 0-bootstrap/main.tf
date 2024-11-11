@@ -45,8 +45,8 @@ module "seed_bootstrap" {
 
   org_id                         = var.org_id
   folder_id                      = google_folder.bootstrap.id
-  project_id                     = "${var.project_prefix}-b-seed"
-  state_bucket_name              = "${var.bucket_prefix}-${var.project_prefix}-b-seed-tfstate"
+  project_id                     = "${var.project_prefix}-cpr-seed"
+  state_bucket_name              = "${var.project_prefix}-cpr-seed-tfstate"
   force_destroy                  = var.bucket_force_destroy
   billing_account                = var.billing_account
   group_org_admins               = var.groups.required_groups.group_org_admins
@@ -63,14 +63,14 @@ module "seed_bootstrap" {
   kms_prevent_destroy            = !var.bucket_tfstate_kms_force_destroy
 
   project_labels = {
-    environment       = "bootstrap"
-    application_name  = "seed-bootstrap"
-    billing_code      = "1234"
-    primary_contact   = "example1"
-    secondary_contact = "example2"
-    business_code     = "shared"
-    env_code          = "b"
-    vpc               = "none"
+    environment       = var.env
+    application_name  = var.app_name
+    billing_code      = var.billing_code
+    primary_contact   = var.primary_contact
+    secondary_contact = var.secondary_contact
+    business_code     = var.business_code
+    # env_code          = "b"
+    # vpc               = "none"
   }
 
   activate_apis = [
