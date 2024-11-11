@@ -96,6 +96,17 @@ variable "project_deletion_policy" {
   default     = "PREVENT"
 }
 
+variable "env" {
+  description = "Project environment Common prod -cpr- or Common non prod -cnp-"
+  default = "cpr"
+}
+
+variable "random_suffix" {
+  description = "Appends a 4 character random suffix to project ID and GCS bucket name."
+  type        = bool
+  default     = false
+}
+
 /* ----------------------------------------
     Specific to project labels
    ---------------------------------------- */

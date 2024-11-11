@@ -34,12 +34,12 @@ locals {
   ] : ["roles/resourcemanager.organizationAdmin", "roles/billing.user"]
 }
 
-# resource "random_string" "random" {
-#   length           = 4
-#   special          = false
-#   min_lower        = 4
-#   override_special = "/@£$"
-# }
+resource "random_string" "random" {
+  length           = 4
+  special          = false
+  min_lower        = 4
+  override_special = "/@£$"
+}
 
 resource "google_folder" "bootstrap" {
   display_name = "bootstrap"
@@ -52,8 +52,8 @@ module "seed_bootstrap" {
 
   org_id                         = var.org_id
   folder_id                      = google_folder.bootstrap.id
-  project_id                     = "${var.project_prefix}-cpr-seed"
-  state_bucket_name              = "${var.project_prefix}-cpr-seed-tfstate"
+  project_id                     = "${var.project_prefix}-${var.env}-seed-${random_string.random.result}"
+  state_bucket_name              = "${var.project_prefix}-${var.env}-seed-${random_string.random.result}-csb-tfstate"
   force_destroy                  = var.bucket_force_destroy
   billing_account                = var.billing_account
   group_org_admins               = var.groups.required_groups.group_org_admins
@@ -69,6 +69,7 @@ module "seed_bootstrap" {
   key_rotation_period            = "7776000s"
   kms_prevent_destroy            = !var.bucket_tfstate_kms_force_destroy
   project_deletion_policy        = var.project_deletion_policy
+  random_suffix                  = var.random_suffix
 
   project_labels = var.project_labels
 

@@ -51,6 +51,8 @@ default_region_kms = "northamerica-northeast1"
 # The folder must already exist.
 # parent_folder = "01234567890"
 
+random_suffix = false
+
 /* ----------------------------------------
     Specific to project label
    ---------------------------------------- */
