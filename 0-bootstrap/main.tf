@@ -62,16 +62,7 @@ module "seed_bootstrap" {
   key_rotation_period            = "7776000s"
   kms_prevent_destroy            = !var.bucket_tfstate_kms_force_destroy
 
-  project_labels = {
-    environment       = var.env
-    application_name  = var.app_name
-    billing_code      = var.billing_code
-    primary_contact   = var.primary_contact
-    secondary_contact = var.secondary_contact
-    business_code     = var.business_code
-    # env_code          = "b"
-    # vpc               = "none"
-  }
+  project_labels = var.project_labels
 
   activate_apis = [
     "serviceusage.googleapis.com",

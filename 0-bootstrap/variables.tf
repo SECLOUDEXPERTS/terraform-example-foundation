@@ -94,41 +94,21 @@ variable "bucket_tfstate_kms_force_destroy" {
     Specific to project labels
    ---------------------------------------- */
 
-variable "env" {
-  description = "project seed environment"
-  type = string
-  default = "cpr"
+
+variable "project_labels" {
+  description = "Contains default values fof project labels"
+  type = object({
+    environment       = optional(string, "cpr")
+    application_name  = optional(string, "seed")
+    billing_code      = optional(string, "n/a")
+    primary_contact   = optional(string, "n/a")
+    secondary_contact = optional(string, "n/a")
+    business_code     = optional(string, "n/a")
+    # env_code          = "b"
+    # vpc               = "none"
+  })
 }
 
-variable "app_name" {
-  description = "project seed application name"
-  type = string
-  default = "seed"
-}
-
-variable "billing_code" {
-  description = "project seed billing code"
-  type = string
-  default = "n/a"
-}
-
-variable "primary_contact" {
-  description = "project seed primary contact"
-  type = string
-  default = "n/a"
-}
-
-variable "secondary_contact" {
-  description = "project seed secondary contact"
-  type = string
-  default = "n/a"
-}
-
-variable "business_code" {
-  description = "project seed business code"
-  type = string
-  default = "shared"
-}
 
 
 /* ----------------------------------------
