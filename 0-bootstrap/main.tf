@@ -44,6 +44,7 @@ resource "random_string" "random" {
 resource "google_folder" "bootstrap" {
   display_name = "bootstrap"
   parent       = local.parent
+  deletion_protection = var.folder_deletion_protection 
 }
 
 module "seed_bootstrap" {

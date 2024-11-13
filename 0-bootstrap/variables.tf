@@ -183,6 +183,12 @@ variable "initial_group_config" {
   default     = "WITH_INITIAL_OWNER"
 }
 
+variable "folder_deletion_protection" {
+  description = "Folder deletion protection"
+  default = false
+  type = bool
+}
+
 /* ----------------------------------------
     Specific to github_bootstrap
    ---------------------------------------- */
