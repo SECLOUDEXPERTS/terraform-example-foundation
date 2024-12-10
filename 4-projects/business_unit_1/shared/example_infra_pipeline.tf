@@ -58,7 +58,7 @@ module "infra_pipelines" {
   remote_tfstate_bucket       = local.projects_remote_bucket_tfstate
   billing_account             = local.billing_account
   default_region              = var.default_region
-  github_repos             = local.repo_names
+  github_repos                = local.repo_names
   private_worker_pool_id      = local.cloud_build_private_worker_pool_id
 }
 
