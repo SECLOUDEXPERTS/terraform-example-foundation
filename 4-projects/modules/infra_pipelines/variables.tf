@@ -79,3 +79,32 @@ variable "vpc_service_control_attach_dry_run" {
   type        = bool
   default     = false
 }
+
+variable "github_repos" {
+  type        = list(string)
+  description = "List of repository names to create on GitHub."
+}
+
+variable "github_repo_visibility" {
+  type        = string
+  description = "Visibility of the repositories (public, private, or internal)."
+  default     = "private" # Or adjust as needed.
+}
+
+variable "github_repo_description" {
+  type        = string
+  description = "Description for the repositories."
+  default = "" # or any preferred default description.
+}
+variable "github_repo_has_issues" {
+ type = bool
+ default = true
+}
+variable "github_repo_has_projects" {
+ type = bool
+ default = true
+}
+variable "github_repo_has_wiki" {
+ type = bool
+ default = true
+}

@@ -29,13 +29,29 @@ locals {
 }
 
 # Create CSRs
-resource "google_sourcerepo_repository" "app_infra_repo" {
-  for_each = toset(var.app_infra_repos)
+# resource "google_sourcerepo_repository" "app_infra_repo" {
+#   for_each = toset(var.app_infra_repos)
 
-  project = var.cloudbuild_project_id
-  name    = each.value
+#   project = var.cloudbuild_project_id
+#   name    = each.value
+# }
+/***********************************************
+  Github Repository creation
+ ***********************************************/
+
+resource "github_repository" "repositories" {
+  for_each = toset(var.github_repos)
+
+  name        = each.value
+  visibility  = var.github_repo_visibility # e.g., "public", "private", "internal"
+  description = var.github_repo_description # Optional description
+  has_issues  = var.github_repo_has_issues # Defaults to true
+  has_projects = var.github_repo_has_projects # Defaults to true
+  has_wiki    = var.github_repo_has_wiki # Defaults to true
+
+  # ... other configuration options as needed ...
+
 }
-
 resource "google_sourcerepo_repository" "gcp_policies" {
   project = var.cloudbuild_project_id
   name    = "gcp-policies"
@@ -57,7 +73,7 @@ module "tf_workspace" {
   source  = "terraform-google-modules/bootstrap/google//modules/tf_cloudbuild_workspace"
   version = "~> 9.0"
 
-  for_each = toset(var.app_infra_repos)
+  for_each = toset(var.github_repos)
 
   project_id       = var.cloudbuild_project_id
   location         = var.default_region
@@ -72,7 +88,8 @@ module "tf_workspace" {
   cloudbuild_apply_filename = "cloudbuild-tf-apply.yaml"
   enable_worker_pool        = true
   worker_pool_id            = var.private_worker_pool_id
-  tf_repo_uri               = google_sourcerepo_repository.app_infra_repo[each.key].url
+  tf_repo_uri               = github_repository.repositories[each.key].html_url
+  # tf_repo_uri               = google_sourcerepo_repository.app_infra_repo[each.key].url
   create_cloudbuild_sa      = true
   create_cloudbuild_sa_name = "sa-tf-cb-${each.key}"
   diff_sa_project           = true
@@ -91,10 +108,14 @@ module "tf_workspace" {
   tf_apply_branches = ["development", "nonproduction", "production"]
 
   depends_on = [
-    google_sourcerepo_repository.app_infra_repo,
+    github_repository.repositories,
   ]
 
 }
+
+
+
+
 
 /***********************************************
   Cloud Build - IAM
@@ -102,7 +123,7 @@ module "tf_workspace" {
 
 resource "google_artifact_registry_repository_iam_member" "terraform-image-iam" {
   provider = google-beta
-  for_each = toset(var.app_infra_repos)
+  for_each = toset(var.github_repos)
 
   project    = local.gar_project_id
   location   = local.gar_region
@@ -112,7 +133,7 @@ resource "google_artifact_registry_repository_iam_member" "terraform-image-iam" 
 }
 
 resource "google_storage_bucket_iam_member" "tf_state" {
-  for_each = toset(var.app_infra_repos)
+  for_each = toset(var.github_repos)
 
   bucket = var.remote_tfstate_bucket
   role   = "roles/storage.objectViewer"
@@ -120,19 +141,19 @@ resource "google_storage_bucket_iam_member" "tf_state" {
 }
 
 // Required by gcloud beta terraform vet
-resource "google_organization_iam_member" "browser" {
-  for_each = toset(var.app_infra_repos)
+# resource "google_organization_iam_member" "browser" {
+#   for_each = toset(var.github_repos)
 
-  org_id = var.org_id
-  role   = "roles/browser"
-  member = "serviceAccount:${local.workspace_sa_email[each.key]}"
-}
+#   org_id = var.org_id
+#   role   = "roles/browser"
+#   member = "serviceAccount:${local.workspace_sa_email[each.key]}"
+# }
 
-resource "google_sourcerepo_repository_iam_member" "member" {
-  for_each = toset(var.app_infra_repos)
+# resource "google_sourcerepo_repository_iam_member" "member" {
+#   for_each = toset(var.github_repos)
 
-  project    = google_sourcerepo_repository.gcp_policies.project
-  repository = google_sourcerepo_repository.gcp_policies.name
-  role       = "roles/viewer"
-  member     = "serviceAccount:${local.workspace_sa_email[each.key]}"
-}
+#   project    = google_sourcerepo_repository.gcp_policies.project
+#   repository = google_sourcerepo_repository.gcp_policies.name
+#   role       = "roles/viewer"
+#   member     = "serviceAccount:${local.workspace_sa_email[each.key]}"
+# }
