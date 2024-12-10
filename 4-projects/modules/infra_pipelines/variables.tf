@@ -39,10 +39,10 @@ variable "billing_account" {
   type        = string
 }
 
-variable "app_infra_repos" {
-  description = "A list of Cloud Source Repos to be created to hold app infra Terraform configs."
-  type        = list(string)
-}
+# variable "app_infra_repos" {
+#   description = "A list of Cloud Source Repos to be created to hold app infra Terraform configs."
+#   type        = list(string)
+# }
 
 variable "terraform_docker_tag_version" {
   description = "TAG version of the terraform docker image."

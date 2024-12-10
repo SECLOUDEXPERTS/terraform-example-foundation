@@ -20,7 +20,8 @@ locals {
   gar_project_id         = split("/", var.cloud_builder_artifact_repo)[1]
   gar_region             = split("/", var.cloud_builder_artifact_repo)[3]
   gar_name               = split("/", var.cloud_builder_artifact_repo)[length(split("/", var.cloud_builder_artifact_repo)) - 1]
-  created_csrs           = toset([for repo in google_sourcerepo_repository.app_infra_repo : repo.name])
+  created_csrs           = toset([for repo in github_repository.repositories : repo.name])
+#  created_csrs           = toset([for repo in google_sourcerepo_repository.app_infra_repo : repo.name])
   artifact_buckets       = { for k, ws in module.tf_workspace : k => split("/", ws.artifacts_bucket)[length(split("/", ws.artifacts_bucket)) - 1] }
   state_buckets          = { for k, ws in module.tf_workspace : k => split("/", ws.state_bucket)[length(split("/", ws.state_bucket)) - 1] }
   log_buckets            = { for k, ws in module.tf_workspace : k => split("/", ws.logs_bucket)[length(split("/", ws.logs_bucket)) - 1] }
